@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+ 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Would you?</title>
+  <style>
+    body {
+      background-color: #fce4ec; /* Fondo rosa muy clarito */
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    @font-face {
+  font-family: 'Italiana'; /* Puedes elegir un nombre descriptivo */
+  src: url('fonts/Italianno-Regular.ttf') format('truetype'); /* Ajusta la ruta y formato según la extensión de tu fuente */
+}
+
+    h1 {
+      font-size:50px;
+      margin-bottom: 100px;
+      transition: color 0.5s ease-in-out, transform 1s ease-in-out;
+    }
+
+    h1:hover{
+        color: #ffa0c8;
+    }
+
+    a{
+        filter: blur(5px); /* Inicia con un desenfoque de 5px */
+      transition: filter 1.5s ease-in-out, transform 1s ease-in-out;
+      font-size: 70px;
+      position: fixed; /* o 'absolute' si prefieres que no se mueva al hacer scroll */
+      top: 0;
+      left: 0;
+      padding: 10px;
+      color: #ef6363;
+      text-decoration: none;
+    }
+
+    a:hover{
+        filter: blur(0); /* Al pasar el mouse, el desenfoque se reduce a 0 */
+        transform: translateX(-100%); /* Mueve el texto a la izquierda */
+        color: #ffffff;
+    }
+
+    #buttons-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: opacity 1s ease-in-out; /* Añade una transición de desvanecimiento a los botones */
+    }
+
+    button {
+      background-color: #e91e63;
+      color: #fff;
+      font-size: 1.5em;
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.5s ease-in-out; /* Transición para el movimiento del botón */
+    }
+
+    button:hover {
+      background-color: #c2185b;
+    }
+
+    .hidden {
+      opacity: 0; /* Hace que los botones sean transparentes */
+    }
+
+    @keyframes desenfoqueAClaro {
+      from {
+        filter: blur(5px); /* Inicia con un desenfoque de 5px */
+      }
+      to {
+        filter: blur(0); /* Termina con un desenfoque de 0px */
+      }
+    }
+
+    .borroso-a-claro {
+      font-size: 80px;
+      animation: desenfoqueAClaro 1.5s ease-in-out forwards; /* Aplica la animación durante 1.5 segundos */
+    }
+
+    p{
+        transition: color 0.5s ease-in-out;
+        font-size: 65px;
+      position: fixed; /* o 'absolute' si prefieres que no se mueva al hacer scroll */
+      top: 19px;
+      left: 330px;
+      padding: 10px;
+      color: #fff;
+      text-decoration: none;
+
+    }
+    p:hover{
+        color: #ef6363;
+
+    }
+
+    #paper {
+      position: fixed;
+      right: 300px;
+      top: 0;
+      width: 600px;
+      height: 1000px;
+      background-color: #ffffff;
+      border-radius: 20px 0 0 20px;
+      z-index: 0;
+      transition: transform 1s ease-in-out;
+      transform: translateY(170%); /* Inicia escondido arriba de la pantalla */
+    }
+
+    #paper.show {
+      transform: translateY(15%); /* Muestra el papel moviéndolo de arriba hacia abajo */
+    }
+
+    #paperText {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 38px;
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+      
+    }
+    
+
+  </style>
+</head>
+<body>
+
+    
+    <a class="borroso-a-claro">Hi babe!</a>
+    <p> love has never been easier since I met you.</p>
+    
+  <h1 id="valentineText">Would you be my valentine?</h1>
+  <div id="buttons-container">
+    <button onclick="responder('yes')" id="siButton">Yes</button>
+    <button onclick="responder('no')" id="noButton">No</button>
+  </div>
+
+  <div id="paper">
+    <div id="paperText">Ojalá<br>
+        Ojalá la luna supiera que no la veo tan bonita desde que ví tus ojos.
+        Ojalá tu apellido persiga al mío todo el tiempo,
+        y ojalá que el destino sepa que te busqué todo mi pasado. 
+        Amo amarte.
+
+    </div>
+    
+  </div>
+
+  <script>
+    let crecimientoSi = 1;
+    let indiceTextoNo = 0;
+    const textosNo = ["Sure?", "Really sure?", "Segurita segurita?", "Yes sounds better", "Why?", ":(", "Don´t touch", "Said don't touch",  "PON QUE SI"];
+
+    function responder(respuesta) {
+      const valentineText = document.getElementById('valentineText');
+      const buttonsContainer = document.getElementById('buttons-container');
+      const siButton = document.getElementById('siButton');
+      const noButton = document.getElementById('noButton');
+      const paper = document.getElementById('paper');
+
+      if (respuesta === 'yes') {
+        // Mueve el texto a la izquierda y desvanece los botones
+        valentineText.style.transform = 'translateX(-140%)';
+        buttonsContainer.classList.add('hidden');
+        paper.classList.add('show');
+        
+      } else if (respuesta === 'no') {
+        // Cambiar el texto del botón "no"
+        noButton.innerText = textosNo[indiceTextoNo];
+
+        // Incrementar el índice
+        indiceTextoNo = (indiceTextoNo + 1) % textosNo.length;
+
+        // Mover aleatoriamente el botón "no" cerca de las esquinas de forma fluida
+        const nuevosMargenes = getRandomMargins();
+        noButton.style.transition = 'transform 0.5s ease-in-out';
+        noButton.style.transform = `translate(${nuevosMargenes.left}px, ${nuevosMargenes.top}px)`;
+
+        // Hacer crecer exponencialmente el botón "sí"
+        crecimientoSi *= 1.1;
+        siButton.style.transform = `scale(${crecimientoSi})`;
+      }
+    }
+
+    function getRandomMargins() {
+      const top = Math.random() * 200; // Cerca de la esquina superior
+      const left = Math.random() * 200; // Cerca de la esquina izquierda
+ 
+      return { top, left};
+    }
+
+    function getRandomSize() {
+      const width = Math.random() * 150 + 50; // Ancho entre 50 y 200 px
+      const height = Math.random() * 50 + 20; // Altura entre 20 y 70 px
+      return { width, height };
+    }
+  </script>
+</body>
+</html>
